@@ -7,7 +7,7 @@ pydantic
 pydantic-settings
 python-dotenv
 textblob
-googletrans==4.0.0rc1
+
 cryptography
 email-validator>=1.28.0
 groq>=0.4.0
@@ -18,7 +18,7 @@ pydantic>=2.5.0
 pydantic-settings>=2.1.0
 python-dotenv>=1.0.0
 textblob>=0.17.0
-googletrans==4.0.0rc1
+
 cryptography>=41.0.0
 email-validator>=2.0.0
 typing-extensions>=4.8.0
