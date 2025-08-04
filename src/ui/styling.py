@@ -73,6 +73,19 @@ def apply_custom_css():
         margin: 0.5rem 0;
         margin-right: 2rem;
         border-left: 4px solid #2e86c1;
+        line-height: 1.6;
+        word-wrap: break-word;
+    }
+    
+    .message-header {
+        margin-bottom: 0.5rem;
+    }
+    
+    .message-content {
+        line-height: 1.6;
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     
     /* Progress bar styling - Dark theme */
@@ -255,14 +268,21 @@ def apply_custom_css():
     st.markdown(css, unsafe_allow_html=True)
 
 def create_message_bubble(message: str, is_user: bool = False) -> str:
-    """Create HTML for message bubble"""
+    """Create HTML for message bubble with natural chat formatting"""
     css_class = "user-message" if is_user else "assistant-message"
     icon = "👤" if is_user else "🤖"
     
+    # Format message content to preserve line breaks and structure
+    formatted_message = message.replace('\n', '<br>')
+    
     return f"""
     <div class="{css_class}">
-        <strong>{icon} {'You' if is_user else 'TalentScout Assistant'}:</strong><br>
-        {message}
+        <div class="message-header">
+            <strong>{icon} {'You' if is_user else 'TalentScout Assistant'}:</strong>
+        </div>
+        <div class="message-content">
+            {formatted_message}
+        </div>
     </div>
     """
 

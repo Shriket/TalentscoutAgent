@@ -5,10 +5,14 @@ A Streamlit-based AI chatbot for automated candidate screening
 
 import streamlit as st
 import os
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# Load environment variables (only in local development)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # Running on Streamlit Cloud - use st.secrets instead
+    pass
 
 # Import custom modules
 from src.ui.components import setup_page_config, render_header, render_chat_interface
@@ -48,13 +52,10 @@ def main():
             st.success("✅ Thank you for providing consent. You can now proceed with the interview.")
             st.rerun()
         else:
-            st.warning("⚠️ Consent is required to proceed with the interview process.")
             st.stop()
     
-    # Show data subject rights in sidebar
-    with st.sidebar:
-        st.markdown("---")
-        gdpr_compliance.show_data_subject_rights()
+    # GDPR compliance achieved through consent form and privacy policy only
+    # No additional data management features needed for assignment requirements
     
     # Render main chat interface
     render_chat_interface(st.session_state.conversation_manager)

@@ -108,7 +108,7 @@ class ConversationManager:
         return response
     
     def _handle_greeting(self, user_input: str) -> str:
-        """Handle greeting phase"""
+        """Handle greeting phase with intelligent question understanding"""
         session = self.get_session()
         
         # Check if this is the first interaction
@@ -116,10 +116,24 @@ class ConversationManager:
             # Return exact greeting message as specified in prompts
             return "Nice to meet you! The entire process takes about 5-10 minutes. Are you ready to get started?"
         
+        user_lower = user_input.lower().strip()
+        
+        # Handle specific questions about the bot/company
+        if any(word in user_lower for word in ['name', 'who are you', 'what are you', 'introduce']):
+            return "I'm TalentScout Assistant! 🤖 I'm an AI hiring assistant designed to help you through our application process. I'll collect your information, assess your technical skills, and ask relevant questions based on your expertise.\n\nAre you ready to start the application process?"
+        
+        elif any(word in user_lower for word in ['what do you do', 'what is this', 'purpose', 'help']):
+            return "I help candidates like you apply for positions at TalentScout! 🎯\n\nHere's what I do:\n• Collect your basic information\n• Understand your technical skills\n• Ask relevant questions based on your expertise\n• Provide feedback and next steps\n\nWould you like to begin the application process?"
+        
+        elif any(word in user_lower for word in ['company', 'talentscout', 'about company']):
+            return "TalentScout is a hiring platform that connects talented professionals with great opportunities! 🌟\n\nI'm here to help you through our streamlined application process. Ready to get started?"
+        
+        elif any(word in user_lower for word in ['time', 'how long', 'duration']):
+            return "The entire process takes about 5-10 minutes! ⏰\n\nIt's quick and straightforward - just some basic info and a few technical questions. Are you ready to begin?"
+        
         # Check if user is ready to proceed
         positive_indicators = ["yes", "y", "sure", "okay", "ok", "ready", "proceed", "start", "let's go", "begin", "go", "continue", "yeah", "yep", "yup", "haan", "ha"]
         negative_indicators = ["no", "n", "not ready", "later", "wait", "nahi", "nah"]
-        user_lower = user_input.lower().strip()
         
         if any(indicator in user_lower for indicator in positive_indicators):
             session.update_state(ConversationState.INFO_COLLECTION)
@@ -134,8 +148,22 @@ class ConversationManager:
             return response
     
     def _handle_info_collection(self, user_input: str) -> str:
-        """Handle information collection phase"""
+        """Handle information collection phase with intelligent question handling"""
         session = self.get_session()
+        user_lower = user_input.lower().strip()
+        
+        # Handle general questions even during info collection
+        if any(word in user_lower for word in ['name', 'who are you', 'what are you', 'introduce']):
+            return "I'm TalentScout Assistant! 🤖 I'm an AI hiring assistant designed to help you through our application process.\n\nLet's continue with collecting your information. Could you please tell me your **full name**?"
+        
+        elif any(word in user_lower for word in ['what do you do', 'what is this', 'purpose', 'help']):
+            return "I help candidates like you apply for positions at TalentScout! 🎯\n\nRight now I'm collecting your basic information to get started. Could you please provide your **full name**?"
+        
+        elif any(word in user_lower for word in ['company', 'talentscout', 'about company']):
+            return "TalentScout is a hiring platform that connects talented professionals with great opportunities! 🌟\n\nLet's continue with your application. Please tell me your **full name**."
+        
+        elif any(word in user_lower for word in ['time', 'how long', 'duration']):
+            return "The entire process takes about 5-10 minutes! ⏰ We're just getting started.\n\nCould you please tell me your **full name** to continue?"
         
         # Initialize candidate info if not exists
         if not hasattr(session, 'candidate_info') or not session.candidate_info:

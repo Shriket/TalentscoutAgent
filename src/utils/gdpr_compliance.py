@@ -55,15 +55,10 @@ class GDPRCompliance:
             **Contact:** privacy@talentscout.com for any privacy queries
             """)
         
-        # Consent checkboxes
+        # Consent checkboxes (simplified)
         consent_data_processing = st.checkbox(
-            "✅ I consent to the processing of my personal data for recruitment purposes", 
+            "✅ I consent to the processing and storage of my personal data for recruitment purposes", 
             key="consent_processing"
-        )
-        
-        consent_data_storage = st.checkbox(
-            "✅ I consent to storing my data for up to 12 months for future opportunities", 
-            key="consent_storage"
         )
         
         consent_communication = st.checkbox(
@@ -71,17 +66,32 @@ class GDPRCompliance:
             key="consent_communication"
         )
         
-        # Record consent
-        if consent_data_processing:
-            self._record_consent({
-                'data_processing': consent_data_processing,
-                'data_storage': consent_data_storage,
-                'communication': consent_communication,
-                'timestamp': datetime.now().isoformat(),
-                'ip_address': self._get_user_ip()
-            })
+        # Check if both consents are given
+        both_consents_given = consent_data_processing and consent_communication
         
-        return consent_data_processing
+        # Show start button only when both consents are given
+        start_interview = False
+        if both_consents_given:
+            st.markdown("---")
+            start_interview = st.button(
+                "🚀 Start Interview Process", 
+                type="primary",
+                use_container_width=True,
+                key="start_interview_btn"
+            )
+            
+            # Record consent only when starting interview
+            if start_interview:
+                self._record_consent({
+                    'data_processing': consent_data_processing,
+                    'communication': consent_communication,
+                    'timestamp': datetime.now().isoformat(),
+                    'ip_address': self._get_user_ip()
+                })
+        elif consent_data_processing or consent_communication:
+            st.warning("⚠️ Please check both consent boxes to proceed with the interview.")
+        
+        return start_interview
     
     def _record_consent(self, consent_data: Dict[str, Any]):
         """Record user consent with timestamp"""
@@ -134,22 +144,19 @@ class GDPRCompliance:
         return hashlib.sha256(data.encode()).hexdigest()[:8]
     
     def show_data_subject_rights(self):
-        """Display data subject rights options"""
-        st.markdown("### 🔐 Your Data Rights")
+        """Display data subject rights options directly visible"""
+        st.markdown("### ☰ Your Data Rights")
+        st.markdown("**Data Subject Rights (GDPR)**")
         
-        col1, col2, col3 = st.columns(3)
+        # Vertical layout for buttons - directly visible
+        if st.button("📥 Download My Data", use_container_width=True, key="download_data"):
+            self._export_user_data()
         
-        with col1:
-            if st.button("📥 Download My Data"):
-                self._export_user_data()
+        if st.button("✏️ Correct My Data", use_container_width=True, key="correct_data"):
+            self._show_data_correction_form()
         
-        with col2:
-            if st.button("✏️ Correct My Data"):
-                self._show_data_correction_form()
-        
-        with col3:
-            if st.button("🗑️ Delete My Data"):
-                self._show_data_deletion_form()
+        if st.button("🗑️ Delete My Data", use_container_width=True, key="delete_data"):
+            self._show_data_deletion_form()
     
     def _export_user_data(self):
         """Export user data in JSON format"""
