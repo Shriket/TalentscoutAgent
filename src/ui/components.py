@@ -68,20 +68,75 @@ def render_header():
     </div>
     """, unsafe_allow_html=True)
 
+def render_progress_actions_bar(conversation_manager: ConversationManager):
+    """Render top bar with centered action buttons"""
+    with st.container():
+        st.markdown('<div class="progress-action-bar">', unsafe_allow_html=True)
+        
+        # Center layout: three columns with buttons in middle
+        spacer_left, center_col, spacer_right = st.columns([1, 2, 1])
+
+        with center_col:
+            btn_col1, btn_col2 = st.columns(2)
+            with btn_col1:
+                if st.button("🔄 Start Over", key="top_reset", type="primary", use_container_width=True):
+                    if st.session_state.get('confirm_reset', False):
+                        conversation_manager.reset_conversation()
+                        st.session_state.confirm_reset = False
+                        st.rerun()
+                    else:
+                        st.session_state.confirm_reset = True
+                        st.warning("Click again to confirm reset")
+            with btn_col2:
+                if st.button("❓ Help", key="top_help", type="primary", use_container_width=True):
+                    show_help_dialog()
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+
+
+
 def render_chat_interface(conversation_manager: ConversationManager):
     """Render the main chat interface"""
     
-    # Create columns for layout
-    col1, col2 = st.columns([3, 1])
-    
-    with col1:
-        render_chat_area(conversation_manager)
-    
-    with col2:
-        render_sidebar_info(conversation_manager)
+    # Single column layout without sidebar progress card
+    render_chat_area(conversation_manager)
 
 def render_chat_area(conversation_manager: ConversationManager):
     """Render the main chat area"""
+    
+    # Show help if toggled - Debug version
+    help_state = st.session_state.get('show_help', False)
+    
+    if help_state:
+        st.info("""
+🆘 **Help & Instructions**
+
+**How to Use TalentScout Hiring Assistant**
+
+**Interview Process:**
+1. **Introduction** - We'll start with a welcome and overview
+2. **Basic Information** - Provide your contact details and experience
+3. **Technical Skills** - Tell us about your tech stack and expertise
+4. **Technical Questions** - Answer 3-5 questions based on your skills
+5. **Summary** - Review and completion
+
+**Tips for Success:**
+- Be honest and specific about your experience
+- Provide complete information when asked
+- Take your time with technical questions
+- Ask for clarification if needed
+
+**Commands:**
+- Type "help" anytime for assistance
+- Say "bye" or "quit" to end early
+- Use "start over" to restart the interview
+
+**Technical Support:**
+If you experience any issues, please contact our support team.
+        """)
+    
+
     
     # Get current session
     session = conversation_manager.get_session()
@@ -169,19 +224,42 @@ def process_user_input(conversation_manager: ConversationManager, user_input: st
     st.rerun()
 
 def render_sidebar_info(conversation_manager: ConversationManager):
-    """Render sidebar with progress and information"""
+    """Render sidebar with progress and information, combining progress bar and action buttons in a single styled box."""
     
     session = conversation_manager.get_session()
     
-    # Progress section (GREEN BOX - KEEP)
-    st.markdown("### Interview Progress")
     progress = conversation_manager.get_progress_percentage()
     stage_description = conversation_manager.get_current_stage_description()
-    
-    st.markdown(create_progress_bar(progress, stage_description), unsafe_allow_html=True)
-    
-    # Control buttons (GREEN BOX - KEEP)
-    render_control_buttons(conversation_manager)
+
+    # Container with unified background
+    with st.container():
+        # Open wrapper div to set background via CSS
+        st.markdown('<div class="progress-action-box">', unsafe_allow_html=True)
+
+        # Columns: left = progress, right = buttons
+        left_col, center_col, right_col = st.columns([1, 2, 1])
+
+        with left_col:
+            st.markdown(create_progress_bar(progress, stage_description), unsafe_allow_html=True)
+
+        with right_col:
+            # Horizontal button layout
+            btn_col1, btn_col2 = st.columns(2)
+            with btn_col1:
+                if st.button("🔄 Start Over", key="btn_reset", type="primary", use_container_width=True):
+                    if st.session_state.get('confirm_reset', False):
+                        conversation_manager.reset_conversation()
+                        st.session_state.confirm_reset = False
+                        st.rerun()
+                    else:
+                        st.session_state.confirm_reset = True
+                        st.warning("Click again to confirm reset")
+            with btn_col2:
+                if st.button("❓ Help", key="btn_help", type="primary", use_container_width=True):
+                    show_help_dialog()
+
+        # Close wrapper div
+        st.markdown('</div>', unsafe_allow_html=True)
 
 def render_candidate_summary(candidate_info):
     """Render candidate information summary"""
@@ -375,33 +453,13 @@ Tech Stack: {', '.join(candidate.tech_stack)}
     )
 
 def show_help_dialog():
-    """Show help information"""
+    """Toggle help information display"""
+    # Toggle help visibility
+    if 'show_help' not in st.session_state:
+        st.session_state.show_help = False
     
-    with st.expander("🆘 Help & Instructions", expanded=True):
-        st.markdown("""
-        ### How to Use TalentScout Hiring Assistant
-        
-        **Interview Process:**
-        1. **Introduction** - We'll start with a welcome and overview
-        2. **Basic Information** - Provide your contact details and experience
-        3. **Technical Skills** - Tell us about your tech stack and expertise
-        4. **Technical Questions** - Answer 3-5 questions based on your skills
-        5. **Summary** - Review and completion
-        
-        **Tips for Success:**
-        - Be honest and specific about your experience
-        - Provide complete information when asked
-        - Take your time with technical questions
-        - Ask for clarification if needed
-        
-        **Commands:**
-        - Type "help" anytime for assistance
-        - Say "bye" or "quit" to end early
-        - Use "start over" to restart the interview
-        
-        **Technical Support:**
-        If you experience any issues, please contact our support team.
-        """)
+    st.session_state.show_help = not st.session_state.show_help
+    st.rerun()
 
 def render_typing_indicator():
     """Render typing indicator animation"""

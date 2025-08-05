@@ -6,6 +6,7 @@ import streamlit as st
 from typing import Dict, List, Optional, Any, Tuple
 from datetime import datetime
 import uuid
+import json
 
 from src.data.models import ConversationSession, CandidateInfo, TechnicalQuestion, CandidateResponse
 from src.data.validator import DataValidator
@@ -37,16 +38,15 @@ class ConversationManager:
                 config.google_sheet_id and 
                 config.google_service_account_json):
                 
+                # Parse service account JSON if it's a string
+                if isinstance(config.google_service_account_json, str):
+                    service_account_data = json.loads(config.google_service_account_json)
+                else:
+                    service_account_data = config.google_service_account_json
+                
                 print(f"🔍 Attempting Google Sheets initialization...")
                 print(f"Sheet ID: {config.google_sheet_id}")
                 print(f"Service Account JSON type: {type(config.google_service_account_json)}")
-                
-                # Parse JSON string if needed
-                service_account_data = config.google_service_account_json
-                if isinstance(service_account_data, str):
-                    import json
-                    service_account_data = json.loads(service_account_data)
-                
                 print(f"Parsed JSON type: {type(service_account_data)}")
                 print(f"Has client_email: {'client_email' in service_account_data}")
                 print(f"Has token_uri: {'token_uri' in service_account_data}")
@@ -60,8 +60,8 @@ class ConversationManager:
                 print("⚠️ Google Sheets integration disabled - missing credentials")
         except Exception as e:
             print(f"❌ Google Sheets integration failed: {str(e)}")
-            import traceback
-            traceback.print_exc()
+            print("⚠️ Continuing without Google Sheets - data will be saved locally only")
+            self.sheets_handler = None
         
         # Initialize session if not exists
         if 'conversation_session' not in st.session_state:

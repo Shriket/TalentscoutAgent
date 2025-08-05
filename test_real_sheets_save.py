@@ -7,10 +7,31 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import real streamlit modules (not mock)
+import streamlit as st
 from src.chatbot.conversation_manager import ConversationManager
 from src.config.settings import AppConfig, ConversationState
 from src.data.models import CandidateInfo, ConversationSession
 from datetime import datetime
+
+# Mock streamlit session state for testing
+class MockSessionState:
+    def __init__(self):
+        self.data = {}
+    
+    def __getitem__(self, key):
+        return self.data.get(key)
+    
+    def __setitem__(self, key, value):
+        self.data[key] = value
+    
+    def __contains__(self, key):
+        return key in self.data
+    
+    def get(self, key, default=None):
+        return self.data.get(key, default)
+
+# Replace streamlit session state with mock
+st.session_state = MockSessionState()
 
 def test_real_sheets_saving():
     print("🎯 REAL GOOGLE SHEETS SAVING TEST")

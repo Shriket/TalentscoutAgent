@@ -40,9 +40,21 @@ class SheetsHandler:
                 'https://www.googleapis.com/auth/drive'
             ]
             
+            # Handle private key format issues
+            service_account_copy = self.service_account_info.copy()
+            private_key = service_account_copy.get('private_key', '')
+            
+            # Fix common private key format issues
+            if private_key and not private_key.endswith('\n'):
+                service_account_copy['private_key'] = private_key + '\n'
+            
+            # Ensure proper line breaks in private key
+            if '\\n' in private_key:
+                service_account_copy['private_key'] = private_key.replace('\\n', '\n')
+            
             # Create credentials
             credentials = Credentials.from_service_account_info(
-                self.service_account_info, 
+                service_account_copy, 
                 scopes=scopes
             )
             
@@ -55,6 +67,39 @@ class SheetsHandler:
             # Initialize headers if needed
             self._ensure_headers()
             
+        except ValueError as e:
+            if "Could not deserialize key data" in str(e):
+                print(f"❌ Cryptography error: {str(e)}")
+                print("💡 Trying alternative authentication method...")
+                
+                # Try alternative method - save to temp file
+                try:
+                    import tempfile
+                    import json
+                    
+                    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+                        json.dump(self.service_account_info, f)
+                        temp_file = f.name
+                    
+                    credentials = Credentials.from_service_account_file(temp_file, scopes=scopes)
+                    self.client = gspread.authorize(credentials)
+                    self.sheet = self.client.open_by_key(self.sheet_id).sheet1
+                    self._ensure_headers()
+                    
+                    # Clean up temp file
+                    import os
+                    os.unlink(temp_file)
+                    
+                    print("✅ Alternative authentication successful!")
+                    return
+                    
+                except Exception as alt_e:
+                    print(f"❌ Alternative method also failed: {str(alt_e)}")
+                    st.error(f"Google Sheets authentication failed. Please check your service account key format.")
+                    raise e
+            else:
+                st.error(f"Failed to initialize Google Sheets: {str(e)}")
+                raise e
         except Exception as e:
             st.error(f"Failed to initialize Google Sheets: {str(e)}")
             raise e

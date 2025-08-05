@@ -24,6 +24,179 @@ def apply_custom_css():
         background-color: #0e1117;
     }
     
+    /* Progress Action Bar - EXACTLY like mockup */
+    .progress-action-bar {
+        background: #060048;
+        padding: 0.3rem 1rem 1rem 1rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+    }
+    
+    .progress-section {
+        display: none !important;
+        flex: 1;
+        margin-right: 2rem;
+        background: transparent !important;
+    }
+    
+    /* Override Streamlit column background inside progress bar */
+    .progress-action-bar div[data-testid="column"] {
+        background: transparent !important;
+    }
+    
+    .progress-section h4 {
+        color: white;
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    .progress-bar-inline {
+        background: rgba(255,255,255,0.2);
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        width: 100%;
+    }
+    
+    .progress-fill-inline {
+        background: #4fc3f7;
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+    
+    .button-section {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    /* Style buttons inside progress bar */
+    .progress-action-bar .stButton>button {
+        background: #0e1117 !important;
+        color: white !important;
+        border: 1px solid #333 !important;
+        border-radius: 6px !important;
+        font-weight: 600 !important;
+        padding: 0.5rem 1rem !important;
+        height: 40px !important;
+        min-width: 100px !important;
+    }
+    
+    .progress-action-bar .stButton>button:hover {
+        background: #060048 !important;
+    }
+    
+    /* More specific targeting for buttons */
+    .progress-action-bar div[data-testid="column"] .stButton>button {
+        background: #0e1117 !important;
+        color: white !important;
+        border: 1px solid #333 !important;
+    }
+    
+    .progress-action-bar div[data-testid="column"] .stButton>button:hover {
+        background: #262626 !important;
+    }
+    
+    /* Ultra specific targeting - highest priority */
+    div.progress-action-bar div[data-testid="column"] button[kind="primary"],
+    div.progress-action-bar div[data-testid="column"] button[kind="secondary"],
+    div.progress-action-bar div[data-testid="column"] button {
+        background-color: #0e1117 !important;
+        background: #0e1117 !important;
+        color: white !important;
+        border: 1px solid #333 !important;
+    }
+    
+    div.progress-action-bar div[data-testid="column"] button:hover {
+        background-color: #262626 !important;
+        background: #262626 !important;
+    }
+    
+    /* Target exact button classes from DOM */
+    .progress-action-bar button[data-testid="baseButton-secondary"],
+    .progress-action-bar button.st-emotion-cache-1i0chw4,
+    .progress-action-bar button.ef3psqc13 {
+        background-color: #0e1117 !important;
+        background: #0e1117 !important;
+        color: white !important;
+        border: 1px solid #333 !important;
+    }
+    
+    .progress-action-bar button[data-testid="baseButton-secondary"]:hover,
+    .progress-action-bar button.st-emotion-cache-1i0chw4:hover,
+    .progress-action-bar button.ef3psqc13:hover {
+        background-color: #262626 !important;
+        background: #262626 !important;
+    }
+    
+    /* Global override for Streamlit buttons */
+    button[data-testid="baseButton-primary"],
+    button[data-testid="baseButton-secondary"] {
+        background-color: #0e1117 !important;
+        background: #0e1117 !important;
+        background-image: none !important;
+        color: #ffffff !important;
+        border: 1px solid #333 !important;
+    }
+    
+    button[data-testid="baseButton-primary"]:hover,
+    button[data-testid="baseButton-secondary"]:hover {
+        background-color: #262626 !important;
+        background: #262626 !important;
+        background-image: none !important;
+        color: #ffffff !important;
+    }
+    
+    /* SUPER AGGRESSIVE - Override everything */
+    .progress-action-bar * button {
+        background-color: #0e1117 !important;
+        background: #0e1117 !important;
+        background-image: none !important;
+    }
+    
+    .progress-action-bar * button:hover {
+        background-color: #262626 !important;
+        background: #262626 !important;
+        background-image: none !important;
+    }
+
+    /* Small inline progress bar */
+    .progress-inline-small {
+        display: none !important;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 24px;   /* pushes label + bar down */
+
+    }
+
+    .progress-label {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    .progress-bar-inline-small {
+        background: #3e3e59;
+        height: 8px;
+        width: 160px;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .progress-fill-inline-small {
+        background: #4fc3f7;
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+
     /* Header styling - Dark theme */
     .main-header {
         background: #040032;
@@ -165,6 +338,7 @@ def apply_custom_css():
     .stForm > div > div > button:hover {
         background-color: #060048 !important;
         transform: translateY(-1px) !important;
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2) !important;
     }
     
     /* Sidebar styling - Dark theme */

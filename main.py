@@ -9,13 +9,14 @@ import os
 # Load environment variables (only in local development)
 try:
     from dotenv import load_dotenv
-    load_dotenv()
+    # Ensure .env values override existing environment vars (e.g., Streamlit Cloud defaults)
+    load_dotenv(override=True)
 except ImportError:
     # Running on Streamlit Cloud - use st.secrets instead
     pass
 
 # Import custom modules
-from src.ui.components import setup_page_config, render_header, render_chat_interface
+from src.ui.components import setup_page_config, render_header, render_chat_interface, render_progress_actions_bar
 from src.chatbot.conversation_manager import ConversationManager
 from src.config.settings import AppConfig
 from src.utils.gdpr_compliance import GDPRCompliance
@@ -38,6 +39,38 @@ def main():
     
     # Render header
     render_header()
+
+    # Progress + actions top bar
+    render_progress_actions_bar(st.session_state.conversation_manager)
+    
+    # Show help if toggled
+    if st.session_state.get('show_help', False):
+        st.info("""
+🆘 **Help & Instructions**
+
+**How to Use TalentScout Hiring Assistant**
+
+**Interview Process:**
+1. **Introduction** - We'll start with a welcome and overview
+2. **Basic Information** - Provide your contact details and experience
+3. **Technical Skills** - Tell us about your tech stack and expertise
+4. **Technical Questions** - Answer 3-5 questions based on your skills
+5. **Summary** - Review and completion
+
+**Tips for Success:**
+- Be honest and specific about your experience
+- Provide complete information when asked
+- Take your time with technical questions
+- Ask for clarification if needed
+
+**Commands:**
+- Type "help" anytime for assistance
+- Say "bye" or "quit" to end early
+- Use "start over" to restart the interview
+
+**Technical Support:**
+If you experience any issues, please contact our support team.
+        """)
     
     # GDPR Compliance Check
     if 'gdpr_consent_given' not in st.session_state:
