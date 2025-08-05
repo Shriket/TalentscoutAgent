@@ -37,7 +37,7 @@ This project adheres to a code of conduct that all contributors are expected to 
 1. **Fork the repository**
    ```bash
    # Fork on GitHub, then clone your fork
-   git clone https://github.com/yourusername/talentscout-hiring-assistant.git
+   git clone https://github.com/shriket/talentscout-hiring-assistant.git
    cd talentscout-hiring-assistant
    ```
 
@@ -51,7 +51,7 @@ This project adheres to a code of conduct that all contributors are expected to 
    
    # Install dependencies
    pip install -r requirements.txt
-   pip install -r requirements-dev.txt  # Development dependencies
+   pip install -r requirements.txt  # Project dependencies
    ```
 
 3. **Configure environment**
@@ -92,7 +92,7 @@ TalentScoutAgent/
 3. **Test your changes**
    ```bash
    # Run tests
-   python -m pytest tests/
+   python test_real_sheets_save.py
    
    # Run automated interview test
    python final_test.py
@@ -252,7 +252,8 @@ Maintain minimum 80% test coverage:
 pip install coverage
 
 # Run tests with coverage
-coverage run -m pytest tests/
+# Run test coverage
+python test_real_sheets_save.py  # Manual testing
 coverage report
 coverage html  # Generate HTML report
 ```
@@ -346,7 +347,7 @@ Any other relevant information
 
 1. **Ensure tests pass**
    ```bash
-   python -m pytest tests/
+   python test_real_sheets_save.py
    python final_test.py
    ```
 

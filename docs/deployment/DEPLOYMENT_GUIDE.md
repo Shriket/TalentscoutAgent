@@ -21,7 +21,7 @@
 ### Step 1: Clone and Setup
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/talentscout-hiring-assistant.git
+git clone https://github.com/shriket/talentscout-hiring-assistant.git
 cd talentscout-hiring-assistant
 
 # Create virtual environment

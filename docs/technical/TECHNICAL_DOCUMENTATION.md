@@ -23,7 +23,7 @@
 #### 3. GDPR Compliance (`src/utils/gdpr_compliance.py`)
 - **Purpose**: Privacy and data protection implementation
 - **Capabilities**:
-  - AES-256 encryption for sensitive data
+  - AES-128 (Fernet) encryption for sensitive data
   - Consent management and logging
   - Data subject rights implementation
   - Audit trail generation
@@ -82,7 +82,7 @@ class CandidateInfo(BaseModel):
 ## 🔐 Security Implementation
 
 ### Data Encryption
-- **Algorithm**: AES-256 using Fernet
+- **Algorithm**: AES-128 (Fernet) using Fernet
 - **Encrypted Fields**: email, phone, date_of_birth
 - **Key Management**: Environment variables with rotation capability
 

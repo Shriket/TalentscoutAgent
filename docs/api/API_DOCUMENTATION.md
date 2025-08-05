@@ -154,7 +154,7 @@ tech_list = handler.parse_tech_stack("Python, SQL, Excel, Tableau")
 #### Methods
 
 ##### `encrypt_data(self, data: str) -> str`
-Encrypts sensitive data using AES-256 encryption.
+Encrypts sensitive data using AES-128 (Fernet) encryption.
 
 **Parameters**:
 - `data` (str): Plain text data to encrypt

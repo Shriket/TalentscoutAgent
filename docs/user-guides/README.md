@@ -46,7 +46,7 @@
 - **⚡ Real-Time Processing**: Sub-2-second response times for seamless candidate experience
 - **🔒 Enterprise Security**: GDPR-compliant with end-to-end encryption of sensitive data
 - **📊 Comprehensive Assessment**: Collects 21+ data points with behavioral sentiment analysis
-- **🌍 Global Ready**: Multi-language support (English, Hindi, Spanish) with cultural sensitivity
+- **🌍 Global Ready**: Multi-language framework ready (currently English, with Hindi/Spanish support planned)
 - **📈 Scalable Architecture**: Handles concurrent users with cloud-ready deployment
 
 ### 🎪 **Core Capabilities**
@@ -67,11 +67,11 @@
 | 🎯 **Core Features** | 🔧 **Technical Features** | 🛡️ **Security & Compliance** |
 |:-------------------:|:------------------------:|:----------------------------:|
 | Intelligent Conversation Flow | Streamlit Web Interface | GDPR Compliant Data Handling |
-| Role-Specific Technical Questions | Google Sheets Integration | AES-256 Data Encryption |
-| Real-Time Sentiment Analysis | RESTful API Architecture | Audit Logging & Monitoring |
-| Multi-Language Support | Automated Testing Suite | Data Subject Rights Portal |
+| Role-Specific Technical Questions | Google Sheets Integration | AES-128 (Fernet) Data Encryption |
+| Real-Time Sentiment Analysis | Streamlit Web Architecture | Audit Logging & Monitoring |
+| Multi-Language Framework | Automated Testing Suite | Data Subject Rights Portal |
 | Behavioral Assessment | Cloud-Ready Deployment | Privacy Policy Management |
-| Comprehensive Reporting | Version Control Integration | Consent Management System |
+| Comprehensive Reporting | Data Export Features | Consent Management System |
 
 </div>
 
@@ -91,7 +91,7 @@
 - **Behavioral Analysis**: Sentiment scoring, communication style, and cultural fit assessment
 
 #### **🔒 Enterprise-Grade Security**
-- **Data Encryption**: Sensitive fields (email, phone, DOB) encrypted using AES-256 before storage
+- **Data Encryption**: Sensitive fields (email, phone, DOB) encrypted using AES-128 (Fernet) before storage
 - **Access Control**: Service account authentication with role-based permissions
 - **Audit Trail**: Complete logging of all data operations and user consent
 - **Privacy Rights**: Self-service portal for data access, correction, and deletion requests
@@ -104,7 +104,7 @@
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/talentscout-hiring-assistant.git
+git clone https://github.com/shriket/talentscout-hiring-assistant.git
 cd talentscout-hiring-assistant
 
 # 2. Install dependencies
@@ -250,7 +250,7 @@ Data Export to Google Sheets
 
 ```bash
 # Run comprehensive tests
-python -m pytest tests/
+python test_real_sheets_save.py
 
 # Run automated interview simulation
 python final_test.py
@@ -316,7 +316,7 @@ python final_test.py
 - **Pandas**: Data manipulation and analysis
 
 #### **Security and Compliance**
-- **Cryptography**: AES-256 encryption for sensitive data protection
+- **Cryptography**: AES-128 (Fernet) encryption for sensitive data protection
 - **Python-dotenv**: Secure environment variable management
 - **Logging**: Comprehensive audit trail and error tracking
 
@@ -554,7 +554,7 @@ class ConversationManager:
 - **Privacy by Design**: Built compliance into core architecture from day one
 - **Granular Consent Management**: Explicit consent for each data processing activity
 - **Data Minimization**: Collect only job-relevant information
-- **Encryption at Rest**: AES-256 encryption for all sensitive personal data
+- **Encryption at Rest**: AES-128 (Fernet) encryption for all sensitive personal data
 - **Audit Trail**: Complete logging of all data operations and user consent
 
 **🛠️ Technical Implementation**:
@@ -641,17 +641,19 @@ def validate_email(self, email: str) -> tuple[bool, str]:
 | Transparency | ✅ | Clear privacy notices |
 | Consent Management | ✅ | Granular consent system |
 | Data Subject Rights | ✅ | Self-service portal |
-| Data Security | ✅ | AES-256 encryption |
+| Data Security | ✅ | AES-128 (Fernet) encryption |
 | Data Minimization | ✅ | Job-relevant data only |
 | Audit Logging | ✅ | Complete activity logs |
 | Data Retention | ✅ | 12-month policy |
 
 ### **👤 Data Subject Rights**
 
-- **Right to Access**: One-click data export in JSON format
-- **Right to Rectification**: Self-service data correction form
-- **Right to Erasure**: Secure data deletion process
-- **Right to Portability**: Structured data export
+- **Right to Access**: One-click data export in JSON format (✅ Implemented)
+- **Right to Rectification**: Self-service data correction request form (✅ Implemented)
+- **Right to Erasure**: Secure data deletion request process (✅ Implemented)
+- **Right to Portability**: JSON structured data export (✅ Implemented)
+
+*Note: Data correction and deletion requests are processed manually by administrators for security compliance.*
 
 ---
 
@@ -662,13 +664,13 @@ We welcome contributions to TalentScout! Please see our [Contributing Guidelines
 ### **🔧 Development Setup**
 ```bash
 # Fork and clone the repository
-git clone https://github.com/yourusername/talentscout-hiring-assistant.git
+git clone https://github.com/shriket/talentscout-hiring-assistant.git
 
 # Install development dependencies
-pip install -r requirements-dev.txt
+pip install -r requirements.txt
 
 # Run tests
-python -m pytest tests/
+python test_real_sheets_save.py
 
 # Submit pull request
 ```
@@ -685,6 +687,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ by the TalentScout Team**
 
-[🌟 Star this repo](https://github.com/yourusername/talentscout-hiring-assistant) • [🐛 Report Bug](https://github.com/yourusername/talentscout-hiring-assistant/issues) • [💡 Request Feature](https://github.com/yourusername/talentscout-hiring-assistant/issues)
+[🌟 Star this repo](https://github.com/shriket/talentscout-hiring-assistant) • [🐛 Report Bug](https://github.com/shriket/talentscout-hiring-assistant/issues) • [💡 Request Feature](https://github.com/shriket/talentscout-hiring-assistant/issues)
 
 </div>
