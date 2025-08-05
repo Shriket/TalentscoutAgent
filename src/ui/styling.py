@@ -3,6 +3,10 @@ CSS Styling for TalentScout Hiring Assistant
 """
 
 import streamlit as st
+import os
+
+# Public URL to assistant logo image
+LOGO_URL = "https://i.postimg.cc/W3JnprTS/logo.png"
 
 def apply_custom_css():
     """Apply custom CSS styling to the Streamlit app"""
@@ -22,7 +26,7 @@ def apply_custom_css():
     
     /* Header styling - Dark theme */
     .main-header {
-        background: linear-gradient(90deg, #1f77b4 0%, #2e86c1 100%);
+        background: #040032;
         padding: 1.5rem;
         border-radius: 10px;
         margin-bottom: 2rem;
@@ -131,18 +135,36 @@ def apply_custom_css():
     
     /* Button styling */
     .stButton > button {
-        background: linear-gradient(90deg, #1f77b4, #2e86c1);
-        color: white;
+        background-color: #040032;
+        color: #ffffff;
         border: none;
-        border-radius: 25px;
-        padding: 0.75rem 2rem;
-        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
         transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
     }
     
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(31, 119, 180, 0.3);
+        background-color: #060048;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Form submit button - Dark theme */
+    .stForm > div > div > button {
+        background-color: #040032 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.5rem 1rem !important;
+        font-weight: 500 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .stForm > div > div > button:hover {
+        background-color: #060048 !important;
+        transform: translateY(-1px) !important;
     }
     
     /* Sidebar styling - Dark theme */
@@ -270,7 +292,10 @@ def apply_custom_css():
 def create_message_bubble(message: str, is_user: bool = False) -> str:
     """Create HTML for message bubble with natural chat formatting"""
     css_class = "user-message" if is_user else "assistant-message"
-    icon = "👤" if is_user else "🤖"
+    if is_user:
+        icon_html = "👤"
+    else:
+        icon_html = f'<img src="{LOGO_URL}" width="20" style="vertical-align:middle;">'
     
     # Format message content to preserve line breaks and structure
     formatted_message = message.replace('\n', '<br>')
@@ -278,7 +303,7 @@ def create_message_bubble(message: str, is_user: bool = False) -> str:
     return f"""
     <div class="{css_class}">
         <div class="message-header">
-            <strong>{icon} {'You' if is_user else 'TalentScout Assistant'}:</strong>
+            <strong>{icon_html} {'You' if is_user else 'TalentScout Assistant'}:</strong>
         </div>
         <div class="message-content">
             {formatted_message}

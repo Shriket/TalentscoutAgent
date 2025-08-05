@@ -3,6 +3,7 @@ UI Components for TalentScout Hiring Assistant
 """
 
 import streamlit as st
+import os
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 import time
@@ -17,7 +18,7 @@ def setup_page_config():
     """Configure Streamlit page settings"""
     st.set_page_config(
         page_title="TalentScout Hiring Assistant",
-        page_icon="🤖",
+        page_icon="https://i.postimg.cc/W3JnprTS/logo.png",
         layout="wide",
         initial_sidebar_state="expanded"
     )
@@ -60,9 +61,10 @@ def setup_page_config():
 def render_header():
     """Render the main header"""
     st.markdown("""
-    <div class="main-header">
-        <h1>🤖 TalentScout Hiring Assistant</h1>
-        <p>AI-powered candidate screening and technical assessment</p>
+    <div class="main-header" style="text-align:center;">
+        <img src="https://i.postimg.cc/W3JnprTS/logo.png" alt="TalentScout Logo" width="80" style="margin-bottom:0.5rem;" />
+        <h1>TalentScout Hiring Assistant</h1>
+        <p>AI-powered candidate screening & technical assessment</p>
     </div>
     """, unsafe_allow_html=True)
 
