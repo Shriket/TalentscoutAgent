@@ -84,135 +84,29 @@ streamlit run main.py
 # Application will be available at: http://localhost:8501
 ```
 
-## ☁️ Cloud Deployment Options
+## 🏠 Local Development
 
-### Option 1: Streamlit Cloud (Recommended)
+### Running the Application
 
-#### Prerequisites
-- GitHub repository (public or private)
-- Streamlit Cloud account
-- Environment secrets configured
+The application is designed for local development and testing:
 
-#### Deployment Steps
-1. **Push to GitHub**:
-   ```bash
-   git add .
-   git commit -m "Production ready deployment"
-   git push origin main
-   ```
-
-2. **Deploy on Streamlit Cloud**:
-   - Visit [share.streamlit.io](https://share.streamlit.io)
-   - Connect GitHub repository
-   - Select branch: `main`
-   - Main file path: `main.py`
-
-3. **Configure Secrets**:
-   ```toml
-   # .streamlit/secrets.toml
-   GROQ_API_KEY = "gsk_your_api_key"
-   GOOGLE_SHEET_ID = "your_sheet_id"
-   GOOGLE_SERVICE_ACCOUNT_JSON = '{"type": "service_account", ...}'
-   SECRET_KEY = "your_secret_key"
-   ENCRYPTION_KEY = "your_encryption_key"
-   ```
-
-4. **Deploy**:
-   - Click "Deploy!"
-   - Monitor deployment logs
-   - Access via provided URL
-
-### Option 2: Docker Deployment
-
-#### Create Dockerfile
-```dockerfile
-FROM python:3.9-slim
-
-WORKDIR /app
-
-# Copy requirements and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application code
-COPY . .
-
-# Expose port
-EXPOSE 8501
-
-# Health check
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
-
-# Run application
-CMD ["streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0"]
-```
-
-#### Build and Run
 ```bash
-# Build Docker image
-docker build -t talentscout-hiring-assistant .
+# Ensure all dependencies are installed
+pip install -r requirements.txt
 
-# Run container
-docker run -p 8501:8501 --env-file .env talentscout-hiring-assistant
+# Set up environment variables in .env file
+# (Copy from .env.example and fill in your values)
 
-# Or with docker-compose
-docker-compose up -d
+# Run the application
+streamlit run main.py
 ```
 
-#### Docker Compose Configuration
-```yaml
-version: '3.8'
-services:
-  talentscout:
-    build: .
-    ports:
-      - "8501:8501"
-    environment:
-      - GROQ_API_KEY=${GROQ_API_KEY}
-      - GOOGLE_SHEET_ID=${GOOGLE_SHEET_ID}
-      - GOOGLE_SERVICE_ACCOUNT_JSON=${GOOGLE_SERVICE_ACCOUNT_JSON}
-      - SECRET_KEY=${SECRET_KEY}
-      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-```
+### Development Notes
 
-### Option 3: Heroku Deployment
-
-#### Prerequisites
-- Heroku CLI installed
-- Heroku account
-
-#### Deployment Steps
-1. **Create Heroku App**:
-   ```bash
-   heroku create talentscout-hiring-assistant
-   ```
-
-2. **Configure Environment Variables**:
-   ```bash
-   heroku config:set GROQ_API_KEY=your_api_key
-   heroku config:set GOOGLE_SHEET_ID=your_sheet_id
-   heroku config:set GOOGLE_SERVICE_ACCOUNT_JSON='{"type": "service_account", ...}'
-   heroku config:set SECRET_KEY=your_secret_key
-   heroku config:set ENCRYPTION_KEY=your_encryption_key
-   ```
-
-3. **Create Procfile**:
-   ```
-   web: streamlit run main.py --server.port=$PORT --server.address=0.0.0.0
-   ```
-
-4. **Deploy**:
-   ```bash
-   git add .
-   git commit -m "Heroku deployment"
-   git push heroku main
-   ```
+- This is a local development project designed for demonstration and testing
+- The application runs on `http://localhost:8501` by default
+- Make sure all environment variables are properly configured in your `.env` file
+- For production deployment, additional security and scalability measures would be needed
 
 ## 🔧 Production Configuration
 
@@ -403,7 +297,7 @@ locust -f locustfile.py --host=http://your-domain.com
 - [ ] Data subject rights operational
 
 ### Compliance Testing
-- [ ] GDPR compliance score: 100%
+- [ ] GDPR compliance measures implemented
 - [ ] Privacy notices displayed
 - [ ] Consent management working
 - [ ] Data retention policies active
