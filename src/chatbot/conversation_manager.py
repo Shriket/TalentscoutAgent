@@ -147,6 +147,17 @@ class ConversationManager:
             response = "I understand you might have questions! I'm here to help you apply for positions at TalentScout.\n\nWould you like to **start the application process** now? Just say 'yes' when you're ready!"
             return response
     
+    def _is_dont_know_response(self, user_input: str) -> bool:
+        """Check if user doesn't know the answer"""
+        user_lower = user_input.lower().strip()
+        dont_know_indicators = [
+            "dont know", "don't know", "i dont know", "i don't know",
+            "not sure", "no idea", "nahi pata", "nahi ata", "pata nahi",
+            "idk", "dunno", "not applicable", "n/a", "nahi"
+        ]
+        return (any(user_lower == phrase or f" {phrase} " in f" {user_lower} " for phrase in dont_know_indicators) or
+                 user_lower in ['no', 'none', 'nil', 'nahi'])
+    
     def _handle_info_collection(self, user_input: str) -> str:
         """Handle information collection phase with intelligent question handling"""
         session = self.get_session()
@@ -297,31 +308,35 @@ class ConversationManager:
                 if 1990 <= year <= 2030:
                     candidate_info['graduation_year'] = year
                     candidate_info['current_field'] = 'cgpa_10th'
-                    return f"Great! Graduated in {year} 📊\n\nPlease provide your **10th standard CGPA/Percentage** (0.0 to 10.0):\n\n*Example: 8.5*"
+                    return f"Great! Graduated in {year} 📊\n\nPlease provide your **10th standard CGPA/Percentage** (0.0 to 10.0) - **Required**:\n\n*Example: 8.5*"
                 else:
                     return "Please enter a valid graduation year (1990-2030):\n\n*Example: 2020*"
             except:
                 return "Please enter the graduation year as a number:\n\n*Example: 2020*"
                 
         elif current_field == 'cgpa_10th':
+            if self._is_dont_know_response(user_input):
+                return "This information is **required** to proceed with your application. Please provide your **10th standard CGPA/Percentage** (0.0 to 10.0):\n\n*Example: 8.5*\n\n*If you need help or have questions, please contact our support team.*"
             try:
                 cgpa = float(user_input.strip())
                 if 0.0 <= cgpa <= 10.0:
                     candidate_info['cgpa_10th'] = round(cgpa, 2)
                     candidate_info['current_field'] = 'cgpa_12th'
-                    return f"Excellent! 📊\n\nNow, please provide your **12th standard CGPA/Percentage** (0.0 to 10.0):\n\n*Example: 8.7*"
+                    return f"Excellent! 📊\n\nNow, please provide your **12th standard CGPA/Percentage** (0.0 to 10.0) - **Required**:\n\n*Example: 8.7*"
                 else:
                     return "Please enter a CGPA between 0.0 and 10.0:\n\n*Example: 8.5*"
             except:
                 return "Please enter your 10th CGPA as a number:\n\n*Example: 8.5*"
                 
         elif current_field == 'cgpa_12th':
+            if self._is_dont_know_response(user_input):
+                return "This information is **required** to proceed with your application. Please provide your **12th standard CGPA/Percentage** (0.0 to 10.0):\n\n*Example: 8.7*\n\n*If you need help or have questions, please contact our support team.*"
             try:
                 cgpa = float(user_input.strip())
                 if 0.0 <= cgpa <= 10.0:
                     candidate_info['cgpa_12th'] = round(cgpa, 2)
                     candidate_info['current_field'] = 'cgpa_degree'
-                    return f"Great! 📊\n\nFinally, please provide your **degree CGPA** (0.0 to 10.0):\n\n*Example: 8.9*"
+                    return f"Great! 📊\n\nFinally, please provide your **degree CGPA** (0.0 to 10.0) - **Required**:\n\n*Example: 8.9*"
                 else:
                     return "Please enter a CGPA between 0.0 and 10.0:\n\n*Example: 8.7*"
             except:
@@ -349,33 +364,91 @@ class ConversationManager:
         elif current_field == 'work_experience_description':
             user_response = user_input.strip().lower()
             
+            # Handle clarification requests for work experience
+            clarification_requests = [
+                'i dont get', "i don't get", 'dont get', "don't get", 'not clear', 'unclear',
+                'what do you mean', 'can you explain', 'help me understand', 'elaborate'
+            ]
+            
+            if any(request in user_response for request in clarification_requests):
+                return f"""Of course! Let me explain what I'm asking for. 😊
+
+**Work Experience Question:**
+I need to know about your professional work history. Please share:
+
+**What to include:**
+• **Job Title:** What was your position? (e.g., "Data Analyst", "Software Developer")
+• **Company Name:** Where did you work? (e.g., "ABC Company", "XYZ Corp")
+• **Duration:** How long did you work there? (e.g., "2 years", "6 months")
+• **Responsibilities:** What did you do in that job? (e.g., "analyzed data, created reports")
+
+**Example Answer:**
+"I worked as a Data Analyst at ABC Company for 2 years. My responsibilities included cleaning data, creating dashboards, and generating reports for management."
+
+**If you're a fresh graduate with no work experience, just type:** 'no experience'
+
+Please try answering now! 🙏"""
+            
+            # Handle cases where candidate doesn't have work experience or doesn't know
+            no_experience_indicators = [
+                "no experience", "no work experience", "fresh graduate", "fresher",
+                "student", "no job", "unemployed", "never worked", "no work",
+                "not applicable", "n/a", "nahi pata", "nahi ata", "pata nahi"
+            ]
+            
+            # Handle 'dont know' responses for mandatory field
+            if self._is_dont_know_response(user_input) and not any(phrase in user_response for phrase in no_experience_indicators):
+                return "This information is **required** to proceed with your application. Please provide your work experience details, or clearly state 'no experience' if you're a fresh graduate:\n\n• Position Title\n• Organization Name\n• Duration\n• Main responsibilities\n\n*If you need help or have questions, please contact our support team.*"
+            
+            # Check if user has no experience (this is acceptable)
+            if (any(phrase in user_response for phrase in no_experience_indicators) or 
+                user_response in ['no', 'none', 'nil', 'nahi', 'na']):
+                candidate_info['work_experience_description'] = 'No prior work experience (Fresh Graduate)'
+                candidate_info['current_field'] = 'why_good_candidate'
+                return f"Understood! As a fresh graduate, let's focus on your potential! 🎆\n\nPlease **describe why you are a good candidate** for this position:\n\n• What makes you unique?\n• What skills and qualities do you bring?\n• Why should we consider you?\n\nPlease provide a detailed response:"
+            
             # Check for meaningful work experience content
-            work_indicators = ['worked', 'work', 'job', 'position', 'role', 'company', 'organization', 'responsibilities', 'experience', 'analyst', 'developer', 'engineer', 'manager', 'years', 'months']
+            work_indicators = ['worked', 'work', 'job', 'position', 'role', 'company', 'organization', 'responsibilities', 'experience', 'analyst', 'developer', 'engineer', 'manager', 'years', 'months', 'group', 'corp', 'ltd', 'inc', 'cleaning', 'dashboard', 'report', 'data']
             has_work_content = any(indicator in user_response for indicator in work_indicators)
             
-            # Check if it's just repeating the question or giving irrelevant answer
-            invalid_responses = ['data analyst, business analyst', 'data analyst', 'business analyst', '5', 'yes', 'no']
-            is_invalid = user_response in invalid_responses or len(user_input.strip()) < 15
+            # Check if it's just repeating the question or giving irrelevant answer (be more lenient)
+            invalid_responses = ['5', 'yes', 'no']
+            is_invalid = user_response in invalid_responses
             
-            if has_work_content and not is_invalid and len(user_input.strip()) > 20:
+            # More lenient validation - if it has work content and reasonable length, accept it
+            if has_work_content and not is_invalid and len(user_input.strip()) > 10:
                 candidate_info['work_experience_description'] = user_input.strip()
                 candidate_info['current_field'] = 'why_good_candidate'
                 return f"Thank you for sharing your experience! 🎆\n\nFinally, please **describe why you are a good candidate** for this position:\n\n• What makes you unique?\n• What skills and qualities do you bring?\n• Why should we consider you?\n\nPlease provide a detailed response:"
             else:
-                return "Please provide a detailed description of your work experience (at least a few sentences):\n\n• Position Title\n• Organization Name\n• Duration\n• Main responsibilities"
+                return "Please provide a detailed description of your work experience, or clearly state **'no experience'** if you're a fresh graduate:\n\n• Position Title\n• Organization Name\n• Duration\n• Main responsibilities\n\n*This field is required. If you're a fresher, type 'no experience'*"
                 
         elif current_field == 'why_good_candidate':
             user_response = user_input.strip().lower()
+            
+            # Handle 'don't know' responses for this optional field
+            if self._is_dont_know_response(user_input):
+                candidate_info['why_good_candidate'] = 'Candidate preferred not to answer this question'
+                # Update session with the candidate info
+                session.candidate_info = candidate_info
+                # All info collected, move to tech stack
+                session.update_state(CS.TECH_STACK)
+                
+                return f"""🎉 No problem! Let's move forward.
+
+Now, let's talk about your technical expertise! Please tell me about your **tech stack** - what programming languages, frameworks, databases, and tools do you work with?
+
+*Example: Python, JavaScript, React, Node.js, PostgreSQL, Docker*"""
             
             # Check for meaningful candidate qualities content
             candidate_indicators = ['skills', 'experience', 'good', 'strong', 'qualified', 'ability', 'knowledge', 'expertise', 'passion', 'dedicated', 'motivated', 'team', 'leadership', 'problem', 'solve', 'analytical', 'technical']
             has_candidate_content = any(indicator in user_response for indicator in candidate_indicators)
             
             # Check if it's just repeating positions or giving irrelevant answer
-            invalid_responses = ['data analyst, business analyst', 'data analyst', 'business analyst', '5', 'yes', 'no']
-            is_invalid = user_response in invalid_responses or len(user_input.strip()) < 15
+            invalid_responses = ['data analyst, business analyst', 'data analyst', 'business analyst', '5', 'yes']
+            is_invalid = user_response in invalid_responses
             
-            if has_candidate_content and not is_invalid and len(user_input.strip()) > 20:
+            if has_candidate_content and not is_invalid and len(user_input.strip()) > 15:
                 candidate_info['why_good_candidate'] = user_input.strip()
                 # Update session with the candidate info
                 session.candidate_info = candidate_info
@@ -389,7 +462,7 @@ Now, let's talk about your technical expertise! Please tell me about your **tech
 
 *Example: Python, JavaScript, React, Node.js, PostgreSQL, Docker*"""
             else:
-                return "Please provide a detailed response about why you are a good candidate (at least a few sentences):\n\n• What makes you unique?\n• What skills do you bring?\n• Why should we consider you?"
+                return "Please provide a detailed response about why you are a good candidate, or say 'dont know' to skip:\n\n• What makes you unique?\n• What skills do you bring?\n• Why should we consider you?\n\n*You can say 'dont know' if you prefer to skip this question*"
         # Ensure function exits after info collection
         return
         
@@ -598,6 +671,52 @@ Based on your {experience_years} years of experience and your tech stack, I have
     def _handle_tech_stack(self, user_input: str) -> str:
         """Parse candidate tech stack input, determine role & level and generate questions"""
         session = self.get_session()
+        candidate_name = session.candidate_info.get('full_name', 'there').split()[0] if session.candidate_info else 'there'
+        
+        # Handle 'dont know' responses for tech stack
+        if self._is_dont_know_response(user_input):
+            # Move to summary phase since we can't do technical questions without tech stack
+            session.update_state(ConversationState.SUMMARY)
+            return f"""No problem, {candidate_name}! 😊
+
+That's completely fine - not everyone is familiar with technical terminology yet. 
+
+🎆 **Great job completing the application process!**
+
+I've gathered all your information and you've shown great honesty throughout our conversation. 
+
+**Next Steps:**
+Our team will review your application and get back to you soon. Thank you for your time!
+
+*Is there anything else you'd like to add or any questions about the process?*"""
+        
+        # Handle clarification requests
+        clarification_requests = [
+            'i dont get', "i don't get", 'dont get', "don't get", 'not clear', 'unclear',
+            'what do you mean', 'can you explain', 'help me understand', 'elaborate'
+        ]
+        
+        if any(request in user_input.lower() for request in clarification_requests):
+            return f"""Of course, {candidate_name}! Let me explain what I'm asking for. 😊
+
+**Tech Stack Question:**
+I want to know what programming languages, tools, and technologies you're familiar with.
+
+**Examples of what to mention:**
+• **Programming Languages:** Python, Java, JavaScript, R, SQL
+• **Tools & Software:** Excel, PowerBI, Tableau, Git, Docker
+• **Databases:** MySQL, PostgreSQL, MongoDB
+• **Frameworks:** React, Django, Flask, Node.js
+
+**Example Answer:**
+"I know Python, SQL, Excel, and PowerBI. I've also used Tableau for creating dashboards."
+
+**If you're not familiar with many technologies, just mention what you know:**
+"I mainly use Excel and have some basic knowledge of SQL"
+
+**If you don't know any technical tools, just say:** "I don't know" and we'll skip the technical questions.
+
+Please try answering now! 🙏"""
 
         # Basic stop words to discard common filler terms
         stop_words = {
@@ -606,8 +725,18 @@ Based on your {experience_years} years of experience and your tech stack, I have
         }
 
         # Normalise & split tech stack string
-        tokens = [t.strip().lower().rstrip(",.") for t in user_input.split() if t.strip()]
-        tech_tokens = [t for t in tokens if t not in stop_words and len(t) > 1]
+        tokens = [t.strip().lower().rstrip(",.'") for t in user_input.split() if t.strip()]
+        
+        # Filter out invalid tech tokens (common words that aren't technologies)
+        invalid_tech_words = {
+            'dont', 'know', 'not', 'sure', 'idea', 'understand', 'get', 'mean',
+            'think', 'maybe', 'probably', 'just', 'only', 'really', 'very', 'much'
+        }
+        
+        tech_tokens = [
+            t for t in tokens 
+            if t not in stop_words and t not in invalid_tech_words and len(t) > 1
+        ]
 
         # Deduplicate while preserving order
         seen = set()
@@ -681,23 +810,56 @@ Based on your {experience_years} years of experience and your tech stack, I have
         answer = user_input.strip().lower()
         
         # Check for clarification requests
-        clarification_requests = ['clarify', 'explain', 'what do you mean', 'i dont understand', "i don't understand", 'can you explain', 'what is this', 'help me understand']
+        clarification_requests = [
+            'clarify', 'explain', 'what do you mean', 'i dont understand', "i don't understand", 
+            'can you explain', 'what is this', 'help me understand', 'elaborate', 'please elaborate',
+            'i dont get', "i don't get", 'dont get', "don't get", 'not clear', 'unclear',
+            'what does this mean', 'what is this about', 'samjh nahi aya', 'samjh nahi aa raha'
+        ]
         
         if any(request in answer for request in clarification_requests):
             # Get current question to provide clarification
             current_question_num = len(session.technical_questions['responses'])
             if current_question_num < len(session.technical_questions['questions']):
-                current_question = session.technical_questions['questions'][current_question_num - 1] if current_question_num > 0 else "the question"
-                return f"""Of course, {candidate_name}! Let me clarify the question for you. 😊
+                current_question = session.technical_questions['questions'][current_question_num]
+                
+                # Provide detailed explanation based on question type
+                explanation = ""
+                q_lower = current_question.lower()
+                
+                if "sql" in q_lower:
+                    explanation = "This is asking about SQL (database query language). Even if you're not an expert, you can share basic knowledge or say you're learning."
+                elif "window function" in q_lower:
+                    explanation = "Window functions in SQL are used to perform calculations across rows. If you're not familiar, you can say so or share what you know about SQL in general."
+                elif "chart" in q_lower or "visualization" in q_lower or "best practices" in q_lower:
+                    explanation = "This is about data visualization - choosing the right type of chart (bar, line, pie, etc.) for different kinds of data. Share your experience with Excel, PowerBI, or any visualization tools."
+                elif "date format" in q_lower:
+                    explanation = "This is about handling data where dates are written differently (like 01/02/2023 vs 2023-02-01). Share how you would clean or standardize this data."
+                elif "missing values" in q_lower or "clean" in q_lower or "preprocess" in q_lower:
+                    explanation = "This is about data cleaning - what do you do when some data is missing or incomplete? For example, if you have a spreadsheet with empty cells, how would you handle them? You can share experience with Excel, Python, or any data tools."
+                elif "year-over-year" in q_lower or "growth" in q_lower:
+                    explanation = "This is asking how to calculate growth between different years. For example, if sales were 100 in 2022 and 120 in 2023, how would you calculate the percentage growth? You can share experience with Excel formulas or SQL."
+                elif "dashboard" in q_lower or "report" in q_lower:
+                    explanation = "This is about creating reports or dashboards to show data visually. Share your experience with Excel, PowerBI, Tableau, or any reporting tools you've used."
+                else:
+                    explanation = "This question is asking about your technical knowledge or approach to solving problems. Share whatever experience you have, even if it's basic."
+                
+                return f"""Of course, {candidate_name}! Let me break down the question for you. 😊
 
-**Question Explanation:**
+**Current Question:**
 {current_question}
 
-This question is asking you to explain your understanding or experience with this topic. You can:
-- Share what you know about it
-- Explain how you would approach it
-- Give an example if you have one
-- Say "I'm not familiar with this" if you don't know
+**What this means:**
+{explanation}
+
+**You can respond by:**
+• Sharing what you know (even basic knowledge is fine)
+• Explaining how you would approach it
+• Giving an example from your experience
+• Saying "I'm not familiar with this topic" if you don't know
+• Saying "I don't know the answer" if you want to skip to the next question
+
+**Remember:** Honesty is valued! It's okay to say you don't know something.
 
 Please try answering now! 🙏"""
         
@@ -735,9 +897,9 @@ If you're not familiar with this topic, you can say:
 
 Please try answering again with a bit more detail! 🙏"""
         
-        # Check for "I don't know" type responses
+        # Check for "I don't know" type responses - handle gracefully
         dont_know_indicators = ['dont know', "don't know", 'not sure', 'no idea', 'never used', 'not familiar', 
-                               'dont understand', "don't understand", 'confused', 'not experienced']
+                               'dont understand', "don't understand", 'confused', 'not experienced', 'nahi pata', 'pata nahi']
         
         if any(indicator in answer for indicator in dont_know_indicators):
             # Empathetic response and offer to adjust
@@ -779,7 +941,7 @@ Let me ask you something more aligned with your experience:
 
 *Please share your thoughts - even basic experience is valuable!*"""
             else:
-                # Generic empathetic response
+                # Generic empathetic response with skip option
                 session.technical_questions['responses'].append(user_input)
                 current_question_num = len(session.technical_questions['responses'])
                 total_questions = len(session.technical_questions['questions'])
@@ -788,12 +950,14 @@ Let me ask you something more aligned with your experience:
                     next_question = session.technical_questions['questions'][current_question_num]
                     return f"""That's absolutely fine, {candidate_name}! 😊
 
-No one knows everything, and honesty is really appreciated in interviews. Let's try a different question:
+No one knows everything, and honesty is really appreciated in interviews. 
+
+**Shall we move to the next question?**
 
 **Question {current_question_num + 1} of {total_questions}:**
 {next_question}
 
-*Take your time and share whatever you know!*"""
+*Take your time and share whatever you know! If you don't know this one either, just say so.*"""
         
         # Answer seems reasonable - store it and continue
         session.technical_questions['responses'].append(user_input)

@@ -9,6 +9,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 import streamlit as st
 from src.data.models import CandidateInfo, ConversationSession
+from src.chatbot.sentiment_analyzer import SentimentAnalyzer
 from src.config.settings import SHEET_HEADERS
 from src.utils.gdpr_compliance import GDPRCompliance
 
@@ -30,6 +31,8 @@ class SheetsHandler:
         self.client = None
         self.sheet = None
         self._initialize_client()
+        # Initialize sentiment analyzer for sheet metrics
+        self.sentiment_analyzer = SentimentAnalyzer()
     
     def _initialize_client(self):
         """Initialize Google Sheets client"""
@@ -191,7 +194,7 @@ class SheetsHandler:
                 why_good_candidate,  # Why_Good_Candidate
                 self._format_technical_questions(session.technical_questions),  # Technical_Questions
                 self._format_responses(session.technical_questions),  # Candidate_Responses
-                self._calculate_average_sentiment(session.responses),  # Sentiment_Score
+                self._calculate_average_sentiment(session.chat_history),  # Sentiment_Score
                 self._calculate_questions_answered(session.technical_questions)  # Questions_Answered
             ]
                 
@@ -249,14 +252,22 @@ class SheetsHandler:
         
         return "\n".join(formatted)
     
-    def _calculate_average_sentiment(self, responses: List) -> float:
-        """Calculate average sentiment score"""
-        if not responses:
+    def _calculate_average_sentiment(self, chat_history: List[dict]) -> float:
+        """Calculate average sentiment score across user messages using TextBlob."""
+        if not chat_history:
             return 0.0
-        
-        # For now, return a placeholder
-        # In real implementation, this would analyze sentiment of responses
-        return 0.5
+        user_msgs = [m for m in chat_history if m.get("role") == "user" and m.get("content", "").strip()]
+        if not user_msgs:
+            return 0.0
+
+        # Use existing SentimentAnalyzer for consistency
+        scores = []
+        for m in user_msgs:
+            analysis = self.sentiment_analyzer.analyze_sentiment(m["content"])
+            scores.append(analysis.sentiment_score)
+        if not scores:
+            return 0.0
+        return round(sum(scores) / len(scores), 3)
     
     def _calculate_questions_answered(self, technical_questions_data) -> str:
         """Calculate questions answered in format like '5/5'"""
