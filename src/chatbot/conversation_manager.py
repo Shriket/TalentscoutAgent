@@ -152,18 +152,9 @@ class ConversationManager:
         session = self.get_session()
         user_lower = user_input.lower().strip()
         
-        # Handle general questions even during info collection
-        if any(word in user_lower for word in ['name', 'who are you', 'what are you', 'introduce']):
+        # Only handle very specific bot identity questions, not general keywords
+        if user_lower.strip() in ['who are you', 'what are you', 'who are you?', 'what are you?']:
             return "I'm TalentScout Assistant! 🤖 I'm an AI hiring assistant designed to help you through our application process.\n\nLet's continue with collecting your information. Could you please tell me your **full name**?"
-        
-        elif any(word in user_lower for word in ['what do you do', 'what is this', 'purpose', 'help']):
-            return "I help candidates like you apply for positions at TalentScout! 🎯\n\nRight now I'm collecting your basic information to get started. Could you please provide your **full name**?"
-        
-        elif any(word in user_lower for word in ['company', 'talentscout', 'about company']):
-            return "TalentScout is a hiring platform that connects talented professionals with great opportunities! 🌟\n\nLet's continue with your application. Please tell me your **full name**."
-        
-        elif any(word in user_lower for word in ['time', 'how long', 'duration']):
-            return "The entire process takes about 5-10 minutes! ⏰ We're just getting started.\n\nCould you please tell me your **full name** to continue?"
         
         # Initialize candidate info if not exists
         if not hasattr(session, 'candidate_info') or not session.candidate_info:
@@ -399,7 +390,9 @@ Now, let's talk about your technical expertise! Please tell me about your **tech
 *Example: Python, JavaScript, React, Node.js, PostgreSQL, Docker*"""
             else:
                 return "Please provide a detailed response about why you are a good candidate (at least a few sentences):\n\n• What makes you unique?\n• What skills do you bring?\n• Why should we consider you?"
-                
+        # Ensure function exits after info collection
+        return
+        
 
     
         import re  # at top already? ensure near other imports; but easier: no replacement
