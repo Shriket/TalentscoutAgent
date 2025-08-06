@@ -10,76 +10,39 @@ from pydantic_settings import BaseSettings
 
 class AppConfig(BaseSettings):
     """Application configuration using Pydantic BaseSettings"""
-
+    
     # Groq API Configuration
-    groq_api_key: str = Field(..., env=["GROQ_API_KEY", "groq_api_key"])
+    groq_api_key: str = Field(..., env="GROQ_API_KEY")
     groq_model: str = "llama-3.1-8b-instant"
     groq_temperature: float = 0.7
     groq_max_tokens: int = 1000
-
+    
     # Google Sheets Configuration
-    google_sheet_id: str = Field(..., env=["GOOGLE_SHEET_ID", "google_sheet_id"])
-    google_service_account_json: str = Field(..., env=["GOOGLE_SERVICE_ACCOUNT_JSON", "google_service_account_json"])
-
+    google_sheet_id: str = Field(..., env="GOOGLE_SHEET_ID")
+    google_service_account_json: str = Field(..., env="GOOGLE_SERVICE_ACCOUNT_JSON")
+    
     # Application Settings
-    app_env: str = Field("development", env=["APP_ENV", "app_env"])
-    debug_mode: bool = Field(True, env=["DEBUG_MODE", "debug_mode"])
-    session_timeout: int = Field(1800, env=["SESSION_TIMEOUT", "session_timeout"])
-
+    app_env: str = Field("development", env="APP_ENV")
+    debug_mode: bool = Field(True, env="DEBUG_MODE")
+    session_timeout: int = Field(1800, env="SESSION_TIMEOUT")
+    
     # Security
-    secret_key: str = Field(..., env=["SECRET_KEY", "secret_key"])
-    encryption_key: str = Field(..., env=["ENCRYPTION_KEY", "encryption_key"])
-
+    secret_key: str = Field(..., env="SECRET_KEY")
+    encryption_key: str = Field(..., env="ENCRYPTION_KEY")
+    
     # Performance Settings
     max_response_time: float = 2.0
     max_concurrent_users: int = 10
-
+    
     # UI Configuration
     app_title: str = "TalentScout Hiring Assistant"
     app_icon: str = "🤖"
     primary_color: str = "#1f77b4"
     background_color: str = "#ffffff"
-
+    
     class Config:
         env_file = ".env"
         case_sensitive = False
-
-
-# class AppConfig(BaseSettings):
-#     """Application configuration using Pydantic BaseSettings"""
-    
-#     # Groq API Configuration
-#     groq_api_key: str = Field(..., env="GROQ_API_KEY")
-#     groq_model: str = "llama-3.1-8b-instant"
-#     groq_temperature: float = 0.7
-#     groq_max_tokens: int = 1000
-    
-#     # Google Sheets Configuration
-#     google_sheet_id: str = Field(..., env="GOOGLE_SHEET_ID")
-#     google_service_account_json: str = Field(..., env="GOOGLE_SERVICE_ACCOUNT_JSON")
-    
-#     # Application Settings
-#     app_env: str = Field("development", env="APP_ENV")
-#     debug_mode: bool = Field(True, env="DEBUG_MODE")
-#     session_timeout: int = Field(1800, env="SESSION_TIMEOUT")
-    
-#     # Security
-#     secret_key: str = Field(..., env="SECRET_KEY")
-#     encryption_key: str = Field(..., env="ENCRYPTION_KEY")
-    
-#     # Performance Settings
-#     max_response_time: float = 2.0
-#     max_concurrent_users: int = 10
-    
-#     # UI Configuration
-#     app_title: str = "TalentScout Hiring Assistant"
-#     app_icon: str = "🤖"
-#     primary_color: str = "#1f77b4"
-#     background_color: str = "#ffffff"
-    
-#     class Config:
-#         env_file = ".env"
-#         case_sensitive = False
 
 # Sheet configuration
 SHEET_HEADERS = [
