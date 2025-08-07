@@ -64,7 +64,7 @@ def get_appropriate_answer(bot_response):
         return "Male"
     elif "date of birth" in response_lower:
         return "15/06/1995"
-    elif "graduate" in response_lower:
+    elif "graduation year" in response_lower or "graduation" in response_lower:
         return "2017"
     elif "10th" in response_lower and "cgpa" in response_lower:
         return "8.5"

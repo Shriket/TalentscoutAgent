@@ -133,7 +133,7 @@ def render_chat_area(conversation_manager: ConversationManager):
 - Use "start over" to restart the interview
 
 **Technical Support:**
-If you experience any issues, please contact our support team.
+If you experience any issues, please contact our support team at support@talentscout.com
         """)
     
 

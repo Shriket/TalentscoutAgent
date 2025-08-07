@@ -44,14 +44,6 @@ class GDPRCompliance:
             
             **Legal Basis:** Legitimate interest for recruitment
             
-            **Your Rights:**
-            - Access your data
-            - Correct inaccurate data  
-            - Request data deletion
-            - Withdraw consent anytime
-            
-            **Data Retention:** 12 months (unless you request deletion)
-            
             **Contact:** privacy@talentscout.com for any privacy queries
             """)
         
