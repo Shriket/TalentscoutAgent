@@ -9,14 +9,18 @@ import os
 # Load environment variables (only in local development)
 try:
     from dotenv import load_dotenv
-    # Ensure .env values override existing environment vars (e.g., Streamlit Cloud defaults)
-    load_dotenv(override=True)
+    load_dotenv()
 except ImportError:
     # Running on Streamlit Cloud - use st.secrets instead
     pass
 
 # Import custom modules
-from src.ui.components import setup_page_config, render_header, render_chat_interface, render_progress_actions_bar
+from src.ui.components import (
+    setup_page_config,
+    render_header,
+    render_chat_interface,
+    render_progress_actions_bar,
+)
 from src.chatbot.conversation_manager import ConversationManager
 from src.config.settings import AppConfig
 from src.utils.gdpr_compliance import GDPRCompliance
@@ -55,11 +59,11 @@ def main():
         else:
             st.stop()
     
-    # Progress + actions top bar (only after consent)
-    render_progress_actions_bar(st.session_state.conversation_manager)
-    
     # GDPR compliance achieved through consent form and privacy policy only
     # No additional data management features needed for assignment requirements
+
+    # Show top action bar (Start Over & Help) once consent is given
+    render_progress_actions_bar(st.session_state.conversation_manager)
     
     # Render main chat interface
     render_chat_interface(st.session_state.conversation_manager)
