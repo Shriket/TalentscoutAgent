@@ -431,11 +431,6 @@ Contributors will be recognized in:
 - Release notes
 - Project documentation
 
-## 📞 Getting Help
-
-- **Discord**: [Project Discord Server]
-- **GitHub Discussions**: Use for questions and discussions
-- **Email**: [maintainer-email@example.com]
 
 ## 📝 License
 

@@ -55,7 +55,6 @@
 - **⚡ Real-Time Processing**: Sub-2-second response times for seamless candidate experience
 - **🔒 Enterprise Security**: GDPR-compliant with end-to-end encryption of sensitive data
 - **📊 Comprehensive Assessment**: Collects 21+ data points with behavioral sentiment analysis
-- **🌍 Global Ready**: Multi-language framework ready (currently English, with Hindi/Spanish support planned)
 - **📈 Scalable Architecture**: Handles concurrent users with cloud-ready deployment
 
 ### 🎪 **Core Capabilities**
@@ -317,7 +316,6 @@ python final_test.py
 #### **AI and Machine Learning**
 - **Groq API**: High-performance LLM inference with Llama-3.1-8b-instant model
 - **TextBlob**: Natural language processing for sentiment analysis
-- **Google Translate API**: Multi-language support and translation
 
 #### **Data Management**
 - **Pydantic** (2.0+): Data validation and serialization with type hints

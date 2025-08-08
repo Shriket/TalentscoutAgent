@@ -42,21 +42,9 @@ Your data is used exclusively for:
 ## Data Storage & Security
 - Data is stored securely in Google Sheets with encrypted access
 - Access is restricted to authorized personnel only
-- Data is retained for 12 months unless otherwise requested
-
-## Your Rights Under GDPR
-You have the right to:
-- **Access:** Request a copy of your personal data
-- **Rectification:** Correct inaccurate personal data
-- **Erasure:** Request deletion of your personal data
-- **Portability:** Receive your data in a structured format
-- **Objection:** Object to processing of your personal data
-- **Withdraw Consent:** Withdraw consent at any time
 
 ## Data Retention
-- Interview data is retained for 12 months
 - Successful candidates: Data retained as per employment records policy
-- Unsuccessful candidates: Data deleted after 12 months unless consent given for future opportunities
 
 ## Contact for Data Protection
 For any privacy-related queries or to exercise your rights:

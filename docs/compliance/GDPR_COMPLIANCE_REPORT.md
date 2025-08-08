@@ -32,14 +32,7 @@ This report evaluates the GDPR compliance status of the TalentScout Hiring Assis
   - Consent logging with timestamp and IP
 - **Evidence:** `GDPRCompliance.show_privacy_notice()` method
 
-#### 4. **Data Subject Rights (Art. 15-22 GDPR)**
-- **Status:** ✅ COMPLIANT
-- **Implementation:**
-  - **Right to Access:** Data export functionality
-  - **Right to Rectification:** Data correction form
-  - **Right to Erasure:** Data deletion request form
-  - **Right to Portability:** JSON data export
-- **Evidence:** `GDPRCompliance.show_data_subject_rights()` method
+
 
 #### 5. **Data Security (Art. 32 GDPR)**
 - **Status:** ✅ COMPLIANT
@@ -62,10 +55,7 @@ This report evaluates the GDPR compliance status of the TalentScout Hiring Assis
   - Processing activity logs
 - **Evidence:** `log_data_access()` method
 
-#### 8. **Data Retention (Art. 5(1)(e) GDPR)**
-- **Status:** ✅ COMPLIANT
-- **Implementation:** 12-month retention policy
-- **Evidence:** `check_data_retention()` method
+
 
 ---
 
@@ -94,16 +84,16 @@ This report evaluates the GDPR compliance status of the TalentScout Hiring Assis
 ## 📋 **DATA PROCESSING INVENTORY**
 
 ### **Personal Data Categories:**
-| Data Type | Purpose | Legal Basis | Retention | Encryption |
+| Data Type | Purpose | Legal Basis | Encryption |
 |-----------|---------|-------------|-----------|------------|
-| Name | Candidate identification | Legitimate Interest | 12 months | No |
-| Email | Communication | Consent | 12 months | ✅ Yes |
-| Phone | Communication | Consent | 12 months | ✅ Yes |
-| DOB | Age verification | Legitimate Interest | 12 months | ✅ Yes |
-| Location | Job matching | Legitimate Interest | 12 months | No |
-| Education | Qualification assessment | Legitimate Interest | 12 months | No |
-| Experience | Skill assessment | Legitimate Interest | 12 months | No |
-| Technical Skills | Job matching | Legitimate Interest | 12 months | No |
+| Name | Candidate identification | Legitimate Interest | No |
+| Email | Communication | Consent | ✅ Yes |
+| Phone | Communication | Consent | ✅ Yes |
+| DOB | Age verification | Legitimate Interest | ✅ Yes |
+| Location | Job matching | Legitimate Interest | No |
+| Education | Qualification assessment | Legitimate Interest | No |
+| Experience | Skill assessment | Legitimate Interest | No |
+| Technical Skills | Job matching | Legitimate Interest | No |
 
 ### **Data Flows:**
 1. **Collection:** Streamlit UI → Session State → Validation
@@ -124,7 +114,7 @@ compliance_status = gdpr_compliance.get_compliance_status()
     'privacy_notice_shown': True, 
     'data_encrypted': True,
     'audit_logging': True,
-    'retention_policy': True,
+    
     'subject_rights_available': True
 }
 ```
@@ -146,7 +136,6 @@ compliance_status = gdpr_compliance.get_compliance_status()
 - Address: [Organization Address]
 
 **Data Subject Rights Requests:**
-- Online: Via application sidebar
 - Email: rights@talentscout.com
 - Response Time: 48 hours (acknowledgment), 30 days (resolution)
 
