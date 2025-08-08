@@ -10,7 +10,16 @@
 
 **An Enterprise-Grade AI-Powered Hiring Assistant for Intelligent Candidate Screening**
 
-[🚀 Quick Start](#-quick-start) • [📖 Installation](#-installation-instructions) • [🎯 Usage](#-usage-guide) • [🏗️ Technical Details](#️-technical-details) • [🧠 Prompt Design](#-prompt-design)
+<div align="center">
+
+### 🌐 **Live Demo & Resources**
+
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Try_Now-success?style=for-the-badge&logo=streamlit)](https://talentscouts-hiring-assistant.streamlit.app)
+[![Demo Video](https://img.shields.io/badge/🎬_Demo_Video-Watch_Now-red?style=for-the-badge&logo=youtube)](https://youtu.be/lrc5D28AdkU)
+
+**Experience the AI-powered hiring process in action!**
+
+</div>
 
 </div>
 
