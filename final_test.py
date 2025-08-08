@@ -64,6 +64,14 @@ def get_appropriate_answer(bot_response):
         return "Male"
     elif "date of birth" in response_lower:
         return "15/06/1995"
+    # Work experience and candidate description (must appear before 'graduate' check because the
+    # question text also contains the word *graduate*)
+    elif "work experience" in response_lower or "position title" in response_lower:
+        return (
+            "I worked as a Data Analyst at TCS for 3 years where I created PowerBI dashboards, "
+            "wrote SQL queries, and performed statistical analysis. Then I moved to Infosys as a "
+            "Senior Data Analyst for 2 years leading a team of 3 analysts on predictive modelling projects."
+        )
     elif "graduate" in response_lower:
         return "2017"
     elif "10th" in response_lower and "cgpa" in response_lower:
@@ -74,8 +82,8 @@ def get_appropriate_answer(bot_response):
         return "7.8"
     
     # Work experience and candidate description
-    elif "work experience" in response_lower or "position title" in response_lower:
-        return "I worked as a Data Analyst at TCS for 3 years where I was responsible for creating PowerBI dashboards, writing SQL queries for data extraction, and performing statistical analysis. Then I moved to Infosys as Senior Data Analyst for 2 years, leading a team of 3 analysts and working on predictive modeling projects."
+    # (Handled earlier to avoid overshadow)
+    # Placeholder retained for readability but will never reach here due to above condition
     elif "good candidate" in response_lower or ("why" in response_lower and "candidate" in response_lower):
         return "I have strong analytical skills with 5 years of experience in data analysis. My expertise in Python, SQL, and PowerBI allows me to extract insights from complex datasets. I have successfully led teams, delivered projects on time, and have a proven track record of improving business processes through data-driven decisions."
     
