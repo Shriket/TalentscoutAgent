@@ -190,22 +190,6 @@ Logs user consent for audit purposes.
 - `data_storage`: Data storage consent
 - `marketing`: Marketing communications consent
 
-##### `handle_data_request(self, request_type: str, user_data: dict) -> dict`
-Processes data subject rights requests.
-
-**Parameters**:
-- `request_type` (str): Type of request
-- `user_data` (dict): User's data for the request
-
-**Request Types**:
-- `access`: Right to access personal data
-- `rectification`: Right to correct personal data
-- `erasure`: Right to delete personal data
-- `portability`: Right to data portability
-
-**Returns**:
-- `dict`: Response with requested data or confirmation
-
 ---
 
 ### SheetsHandler

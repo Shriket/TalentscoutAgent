@@ -64,7 +64,7 @@
 3. **Real-Time Data Validation**: Smart input validation with helpful error correction
 4. **Automated Data Export**: Seamless integration with Google Sheets for HR workflow
 5. **Behavioral Analysis**: Sentiment scoring and communication style assessment
-6. **Privacy-First Design**: Complete GDPR compliance with data subject rights implementation
+6. **Privacy-First Design**: GDPR consent and encryption safeguards
 
 ---
 
@@ -77,9 +77,9 @@
 | Intelligent Conversation Flow | Streamlit Web Interface | GDPR Compliant Data Handling |
 | Role-Specific Technical Questions | Google Sheets Integration | AES-128 (Fernet) Data Encryption |
 | Real-Time Sentiment Analysis | Streamlit Web Architecture | Audit Logging & Monitoring |
-| Multi-Language Framework | Automated Testing Suite | Data Subject Rights Portal |
+| Automated Testing Suite | Encryption in Transit | Consent Management UI |
 | Behavioral Assessment | Cloud-Ready Deployment | Privacy Policy Management |
-| Comprehensive Reporting | Data Export Features | Consent Management System |
+| Comprehensive Reporting | Cloud Metrics Dashboard | Consent Management System |
 
 </div>
 
@@ -101,8 +101,7 @@
 #### **🔒 Enterprise-Grade Security**
 - **Data Encryption**: Sensitive fields (email, phone, DOB) encrypted using AES-128 (Fernet) before storage
 - **Access Control**: Service account authentication with role-based permissions
-- **Audit Trail**: Complete logging of all data operations and user consent
-- **Privacy Rights**: Self-service portal for data access, correction, and deletion requests
+
 
 ---
 
@@ -250,7 +249,6 @@ Data Export to Google Sheets
 - **Google Sheets**: Real-time data export with 21+ candidate fields
 - **Sentiment Analysis**: Behavioral assessment scores and communication style
 - **Technical Evaluation**: Detailed responses to role-specific questions
-- **Compliance Reports**: GDPR audit trails and consent management records
 
 ### **👨‍💻 For Developers**
 
@@ -434,7 +432,6 @@ Conversation Guidelines:
 2. **Progressive Difficulty**: Technical questions scale with declared experience level
 3. **Role Specificity**: Customized content for different job positions and tech stacks
 4. **Empathetic Communication**: Supportive tone for nervous or uncertain candidates
-5. **Cultural Sensitivity**: Inclusive language that works across different backgrounds
 
 #### **📝 Information Gathering Prompts**
 
@@ -562,7 +559,7 @@ class ConversationManager:
 - **Granular Consent Management**: Explicit consent for each data processing activity
 - **Data Minimization**: Collect only job-relevant information
 - **Encryption at Rest**: AES-128 (Fernet) encryption for all sensitive personal data
-- **Audit Trail**: Complete logging of all data operations and user consent
+
 
 **🛠️ Technical Implementation**:
 ```python
@@ -640,20 +637,9 @@ def validate_email(self, email: str) -> tuple[bool, str]:
 | Lawful Basis | ✅ | Legitimate interest + Consent |
 | Transparency | ✅ | Clear privacy notices |
 | Consent Management | ✅ | Granular consent system |
-| Data Subject Rights | ✅ | Self-service portal |
 | Data Security | ✅ | AES-128 (Fernet) encryption |
 | Data Minimization | ✅ | Job-relevant data only |
-| Audit Logging | ✅ | Complete activity logs |
-| Data Retention | ✅ | 12-month policy |
 
-### **👤 Data Subject Rights**
-
-- **Right to Access**: One-click data export in JSON format (✅ Implemented)
-- **Right to Rectification**: Self-service data correction request form (✅ Implemented)
-- **Right to Erasure**: Secure data deletion request process (✅ Implemented)
-- **Right to Portability**: JSON structured data export (✅ Implemented)
-
-*Note: Data correction and deletion requests are processed manually by administrators for security compliance.*
 
 ---
 

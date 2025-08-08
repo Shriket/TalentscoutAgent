@@ -70,7 +70,6 @@ This report evaluates the GDPR compliance status of the TalentScout Hiring Assis
 ### **Organizational Measures:**
 1. **Privacy Policy:** Comprehensive policy document
 2. **Consent Management:** Multi-level consent collection
-3. **Data Subject Rights:** Self-service portal for rights exercise
 4. **Staff Training:** Clear documentation for developers/HR
 
 ### **Process Controls:**
@@ -85,7 +84,7 @@ This report evaluates the GDPR compliance status of the TalentScout Hiring Assis
 
 ### **Personal Data Categories:**
 | Data Type | Purpose | Legal Basis | Encryption |
-|-----------|---------|-------------|-----------|------------|
+|-----------|---------|-------------|-----------|
 | Name | Candidate identification | Legitimate Interest | No |
 | Email | Communication | Consent | ✅ Yes |
 | Phone | Communication | Consent | ✅ Yes |
@@ -134,10 +133,6 @@ compliance_status = gdpr_compliance.get_compliance_status()
 - Email: privacy@talentscout.com
 - Phone: [Contact Number]
 - Address: [Organization Address]
-
-**Data Subject Rights Requests:**
-- Email: rights@talentscout.com
-- Response Time: 48 hours (acknowledgment), 30 days (resolution)
 
 ---
 

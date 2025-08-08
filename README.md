@@ -77,9 +77,9 @@
 | Intelligent Conversation Flow | Streamlit Web Interface | GDPR Compliant Data Handling |
 | Role-Specific Technical Questions | Google Sheets Integration | AES-128 (Fernet) Data Encryption |
 | Real-Time Sentiment Analysis | Streamlit Web Architecture | Audit Logging & Monitoring |
-| Multi-Language Framework | Automated Testing Suite | Data Subject Rights Portal |
+| Automated Testing Suite | Encryption in Transit | Consent Management UI |
 | Behavioral Assessment | Cloud-Ready Deployment | Privacy Policy Management |
-| Comprehensive Reporting | Data Export Features | Consent Management System |
+| Comprehensive Reporting | Cloud Metrics Dashboard | Consent Management System |
 
 </div>
 
@@ -102,7 +102,6 @@
 - **Data Encryption**: Sensitive fields (email, phone, DOB) encrypted using AES-128 (Fernet) before storage
 - **Access Control**: Service account authentication with role-based permissions
 - **Audit Trail**: Complete logging of all data operations and user consent
-- **Privacy Rights**: Self-service portal for data access, correction, and deletion requests
 
 ---
 
