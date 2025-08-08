@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="https://i.postimg.cc/W3JnprTS/logo.png" alt="TalentScout Logo" width="80" height="80">
+![TalentScout Logo](https://img.shields.io/badge/TalentScout-AI%20Hiring%20Assistant-blue?style=for-the-badge&logo=robot)
 ![Python](https://img.shields.io/badge/Python-3.9+-green?style=for-the-badge&logo=python)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red?style=for-the-badge&logo=streamlit)
 ![GDPR](https://img.shields.io/badge/GDPR-Compliant-success?style=for-the-badge&logo=shield)
@@ -13,12 +13,6 @@
 [🚀 Quick Start](#-quick-start) • [📖 Installation](#-installation-instructions) • [🎯 Usage](#-usage-guide) • [🏗️ Technical Details](#️-technical-details) • [🧠 Prompt Design](#-prompt-design)
 
 </div>
-
-<p align="center">
-  <a href="https://talentscouts-hiring-assistant.streamlit.app" target="_blank"><img src="https://img.shields.io/badge/Live%20Demo-Streamlit-blueviolet?style=for-the-badge&logo=play" alt="Live Demo"></a>
-  &nbsp;
-  <a href="https://youtu.be/lrc5D28AdkU" target="_blank"><img src="https://img.shields.io/badge/Watch%20Demo-YouTube-red?style=for-the-badge&logo=youtube" alt="Demo Video"></a>
-</p>
 
 ---
 
