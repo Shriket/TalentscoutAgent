@@ -687,7 +687,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by [Shriket](https://github.com/shriket/)**
+**Made with ❤️ by [Shriket](https://shriketraut.netlify.app/)**
 
 [🌟 Star this repo](https://github.com/shriket/talentscout-hiring-assistant) • [🐛 Report Bug](https://github.com/shriket/talentscout-hiring-assistant/issues) • [💡 Request Feature](https://github.com/shriket/talentscout-hiring-assistant/issues)
 
